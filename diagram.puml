@@ -1,0 +1,673 @@
+@startuml
+set namespaceSeparator ::
+
+class "blood_bank_app::general::app_theme.dart::AppTheme" {
+  {static} +ThemeData lightTheme
+}
+
+"blood_bank_app::general::app_theme.dart::AppTheme" o-- "flutter::src::material::theme_data.dart::ThemeData"
+
+class "blood_bank_app::general::main.dart::BloodBankApp" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "blood_bank_app::general::main.dart::BloodBankApp"
+
+class "blood_bank_app::models::blood.dart::Blood" {
+  +List<int> packets
+  +int updateIndex
+  +int updatePacks
+  +String updateGroup
+  {static} +List<String> bloodGroups
+  +dynamic setPack()
+  +int updateInfo()
+  +bool checkStorage()
+  +bool confirmRequest()
+  +dynamic updateBloodReserves()
+  +void increment()
+  +void decrement()
+  {static} +bool isCompatible()
+}
+
+class "blood_bank_app::models::citizens.dart::Citizen" {
+  +String userName
+  -String _passwordHash
+  +int age
+  +String gender
+  +double weight
+  +String bloodGroup
+  +double hb
+  +int pulse
+  +double systolicBP
+  +double diastolicBP
+  {static} -String _hashPassword()
+  {static} +dynamic register()
+  {static} +dynamic login()
+  {static} +dynamic getCitizen()
+  {static} +dynamic updatePassword()
+  +dynamic updateProfile()
+  +Map<String, dynamic> toMap()
+}
+
+class "blood_bank_app::models::date.dart::Date" {
+  +int d
+  +int m
+  +int y
+  {static} +List<int> monthDays
+  +void setDate()
+  +void setMonth()
+  +void setYear()
+  +int countLeapYears()
+  +int getDifference()
+  +String toString()
+  +Map<String, int> toMap()
+}
+
+class "blood_bank_app::models::donor.dart::Donor" {
+  +String userName
+  +int age
+  +String gender
+  +double weight
+  +String bloodGroup
+  +double hb
+  +int pulse
+  +double systolicBP
+  +double diastolicBP
+  +Date lastDonate
+  +void setAge()
+  +void setGen()
+  +void setWeight()
+  +void setBloodGroup()
+  +void setHB()
+  +void setPulse()
+  +void setSBP()
+  +void setDBP()
+  +void setLastDonate()
+  +void setName()
+  {static} +dynamic saveDonor()
+  {static} +dynamic getAllDonors()
+}
+
+"blood_bank_app::models::donor.dart::Donor" o-- "blood_bank_app::models::date.dart::Date"
+
+class "blood_bank_app::models::receiver.dart::Receiver" {
+  +String userName
+  +int age
+  +String gender
+  +double weight
+  +String bloodGroup
+  +double hb
+  +int pulse
+  +double systolicBP
+  +double diastolicBP
+  +Date lastReception
+  +void setAge()
+  +void setGen()
+  +void setWeight()
+  +void setPulse()
+  +void setHB()
+  +void setSBP()
+  +void setDBP()
+  +void setBloodGroup()
+  +void setName()
+  +String getName()
+  +Date getLastReception()
+  +void setLastReception()
+  +void updateLastReception()
+  {static} +dynamic saveReceiver()
+  {static} +dynamic getAllReceivers()
+  +Map<String, dynamic> toMap()
+}
+
+"blood_bank_app::models::receiver.dart::Receiver" o-- "blood_bank_app::models::date.dart::Date"
+
+class "blood_bank_app::models::validator.dart::Validator" {
+  {static} +String? validateAge()
+  {static} +String? validateName()
+  {static} +String? validateWeight()
+  {static} +String? validateHB()
+  {static} +String? validatePulse()
+  {static} +String? validateBP()
+}
+
+class "blood_bank_app::screens::admin::add_citizen.dart::AddCitizenScreen" {
+  +State<AddCitizenScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "blood_bank_app::screens::admin::add_citizen.dart::AddCitizenScreen"
+
+class "blood_bank_app::screens::admin::add_citizen.dart::_AddCitizenScreenState" {
+  -GlobalKey<FormState> _formKey
+  -TextEditingController _usernameController
+  -TextEditingController _passwordController
+  -dynamic _addCitizen()
+  +Widget build()
+}
+
+"blood_bank_app::screens::admin::add_citizen.dart::_AddCitizenScreenState" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"blood_bank_app::screens::admin::add_citizen.dart::_AddCitizenScreenState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "blood_bank_app::screens::admin::add_citizen.dart::_AddCitizenScreenState"
+
+class "blood_bank_app::screens::admin::admin_dashboard_screen.dart::AdminDashboardScreen" {
+  +Widget build()
+  -Widget _buildDashboardItem()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "blood_bank_app::screens::admin::admin_dashboard_screen.dart::AdminDashboardScreen"
+
+class "blood_bank_app::screens::admin::admin_database_screen.dart::AdminDatabaseScreen" {
+  +List<String> tables
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "blood_bank_app::screens::admin::admin_database_screen.dart::AdminDatabaseScreen"
+
+class "blood_bank_app::screens::admin::admin_login_screen.dart::AdminLoginScreen" {
+  +_AdminLoginScreenState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "blood_bank_app::screens::admin::admin_login_screen.dart::AdminLoginScreen"
+
+class "blood_bank_app::screens::admin::admin_login_screen.dart::_AdminLoginScreenState" {
+  -GlobalKey<FormState> _formKey
+  -TextEditingController _usernameController
+  -TextEditingController _passwordController
+  +void dispose()
+  +Widget build()
+  -void _login()
+}
+
+"blood_bank_app::screens::admin::admin_login_screen.dart::_AdminLoginScreenState" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"blood_bank_app::screens::admin::admin_login_screen.dart::_AdminLoginScreenState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "blood_bank_app::screens::admin::admin_login_screen.dart::_AdminLoginScreenState"
+
+class "blood_bank_app::screens::admin::admin_records_screen.dart::AdminRecordSearchScreen" {
+  +State<AdminRecordSearchScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "blood_bank_app::screens::admin::admin_records_screen.dart::AdminRecordSearchScreen"
+
+class "blood_bank_app::screens::admin::admin_records_screen.dart::_AdminRecordSearchScreenState" {
+  -List<Donor> _allDonors
+  -List<Receiver> _allReceivers
+  -String _searchQuery
+  +void initState()
+  -dynamic _loadRecords()
+  -List<Map<String, dynamic>> _getFilteredResults()
+  -void _showDetails()
+  -Widget _donorDetails()
+  -Widget _receiverDetails()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "blood_bank_app::screens::admin::admin_records_screen.dart::_AdminRecordSearchScreenState"
+
+class "blood_bank_app::screens::admin::admin_table_view_screen.dart::AdminTableViewScreen" {
+  +String tableName
+  +State<AdminTableViewScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "blood_bank_app::screens::admin::admin_table_view_screen.dart::AdminTableViewScreen"
+
+class "blood_bank_app::screens::admin::admin_table_view_screen.dart::_AdminTableViewScreenState" {
+  -List<Map<String, dynamic>> _rows
+  -List<Map<String, dynamic>> _filteredRows
+  -String _searchQuery
+  +void initState()
+  -dynamic _loadTable()
+  -void _search()
+  -dynamic _deleteRow()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "blood_bank_app::screens::admin::admin_table_view_screen.dart::_AdminTableViewScreenState"
+
+class "blood_bank_app::screens::admin::blood_inventory_screen.dart::BloodInventoryScreen" {
+  +State<BloodInventoryScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "blood_bank_app::screens::admin::blood_inventory_screen.dart::BloodInventoryScreen"
+
+class "blood_bank_app::screens::admin::blood_inventory_screen.dart::_BloodInventoryScreenState" {
+  -Blood _blood
+  -bool _isLoading
+  +void initState()
+  -dynamic _loadBloodData()
+  -dynamic _updateInventory()
+  +Widget build()
+}
+
+"blood_bank_app::screens::admin::blood_inventory_screen.dart::_BloodInventoryScreenState" o-- "blood_bank_app::models::blood.dart::Blood"
+"flutter::src::widgets::framework.dart::State" <|-- "blood_bank_app::screens::admin::blood_inventory_screen.dart::_BloodInventoryScreenState"
+
+class "blood_bank_app::screens::citizen::change_password_screen.dart::ChangePasswordScreen" {
+  +String username
+  +State<ChangePasswordScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "blood_bank_app::screens::citizen::change_password_screen.dart::ChangePasswordScreen"
+
+class "blood_bank_app::screens::citizen::change_password_screen.dart::_ChangePasswordScreenState" {
+  -GlobalKey<FormState> _formKey
+  -TextEditingController _oldPasswordController
+  -TextEditingController _newPasswordController
+  -TextEditingController _confirmPasswordController
+  -DatabaseHelper _dbHelper
+  +void dispose()
+  -String _hashPassword()
+  -dynamic _changePassword()
+  -void _showError()
+  +Widget build()
+}
+
+"blood_bank_app::screens::citizen::change_password_screen.dart::_ChangePasswordScreenState" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"blood_bank_app::screens::citizen::change_password_screen.dart::_ChangePasswordScreenState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"blood_bank_app::screens::citizen::change_password_screen.dart::_ChangePasswordScreenState" o-- "blood_bank_app::services::database_helper.dart::DatabaseHelper"
+"flutter::src::widgets::framework.dart::State" <|-- "blood_bank_app::screens::citizen::change_password_screen.dart::_ChangePasswordScreenState"
+
+class "blood_bank_app::screens::citizen::citizen_dashboard_screen.dart::CitizenDashboardScreen" {
+  +String username
+  +Widget build()
+  -Widget _buildActionCard()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "blood_bank_app::screens::citizen::citizen_dashboard_screen.dart::CitizenDashboardScreen"
+
+class "blood_bank_app::screens::citizen::citizen_login_screen.dart::CitizenLoginScreen" {
+  +_CitizenLoginScreenState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "blood_bank_app::screens::citizen::citizen_login_screen.dart::CitizenLoginScreen"
+
+class "blood_bank_app::screens::citizen::citizen_login_screen.dart::_CitizenLoginScreenState" {
+  -GlobalKey<FormState> _formKey
+  -TextEditingController _usernameController
+  -TextEditingController _passwordController
+  -bool _isLoggingIn
+  -DatabaseHelper _dbHelper
+  +void dispose()
+  -String _hashPassword()
+  -dynamic _validateCredentials()
+  -dynamic _login()
+  +Widget build()
+}
+
+"blood_bank_app::screens::citizen::citizen_login_screen.dart::_CitizenLoginScreenState" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"blood_bank_app::screens::citizen::citizen_login_screen.dart::_CitizenLoginScreenState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"blood_bank_app::screens::citizen::citizen_login_screen.dart::_CitizenLoginScreenState" o-- "blood_bank_app::services::database_helper.dart::DatabaseHelper"
+"flutter::src::widgets::framework.dart::State" <|-- "blood_bank_app::screens::citizen::citizen_login_screen.dart::_CitizenLoginScreenState"
+
+class "blood_bank_app::screens::citizen::citizen_register_screen.dart::CitizenRegisterScreen" {
+  +_CitizenRegisterScreenState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "blood_bank_app::screens::citizen::citizen_register_screen.dart::CitizenRegisterScreen"
+
+class "blood_bank_app::screens::citizen::citizen_register_screen.dart::_CitizenRegisterScreenState" {
+  -GlobalKey<FormState> _formKey
+  -TextEditingController _usernameController
+  -TextEditingController _passwordController
+  -TextEditingController _confirmPasswordController
+  -bool _isRegistering
+  +void dispose()
+  -String _hashPassword()
+  -dynamic _register()
+  +Widget build()
+}
+
+"blood_bank_app::screens::citizen::citizen_register_screen.dart::_CitizenRegisterScreenState" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"blood_bank_app::screens::citizen::citizen_register_screen.dart::_CitizenRegisterScreenState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "blood_bank_app::screens::citizen::citizen_register_screen.dart::_CitizenRegisterScreenState"
+
+class "blood_bank_app::screens::citizen::citizen_screen.dart::CitizenScreen" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "blood_bank_app::screens::citizen::citizen_screen.dart::CitizenScreen"
+
+class "blood_bank_app::screens::donor::donate_blood_screen.dart::DonateBloodScreen" {
+  +String username
+  +State<DonateBloodScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "blood_bank_app::screens::donor::donate_blood_screen.dart::DonateBloodScreen"
+
+class "blood_bank_app::screens::donor::donate_blood_screen.dart::_DonateBloodScreenState" {
+  -GlobalKey<FormState> _formKey
+  -Blood _blood
+  -Donor _donor
+  -int _packets
+  -bool _isSubmitting
+  +void initState()
+  -dynamic _initializeData()
+  -dynamic _submitDonation()
+  -void _showSuccess()
+  -void _showError()
+  +Widget build()
+  -Widget _buildAgeField()
+  -Widget _buildGenderDropdown()
+  -Widget _buildWeightField()
+  -Widget _buildBloodGroupDropdown()
+  -Widget _buildHemoglobinField()
+  -Widget _buildPulseField()
+  -Widget _buildSystolicBPField()
+  -Widget _buildDiastolicBPField()
+  -Widget _buildPacketsDropdown()
+  -Widget _buildSubmitButton()
+}
+
+"blood_bank_app::screens::donor::donate_blood_screen.dart::_DonateBloodScreenState" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"blood_bank_app::screens::donor::donate_blood_screen.dart::_DonateBloodScreenState" o-- "blood_bank_app::models::blood.dart::Blood"
+"blood_bank_app::screens::donor::donate_blood_screen.dart::_DonateBloodScreenState" o-- "blood_bank_app::models::donor.dart::Donor"
+"flutter::src::widgets::framework.dart::State" <|-- "blood_bank_app::screens::donor::donate_blood_screen.dart::_DonateBloodScreenState"
+
+class "blood_bank_app::screens::donor::donor_list_screen.dart::DonorListScreen" {
+  +State<DonorListScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "blood_bank_app::screens::donor::donor_list_screen.dart::DonorListScreen"
+
+class "blood_bank_app::screens::donor::donor_list_screen.dart::_DonorListScreenState" {
+  -dynamic _donorsFuture
+  -bool _isLoading
+  +void initState()
+  -dynamic _loadDonors()
+  +Widget build()
+  -Widget _buildDonorList()
+  -void _showDonorDetails()
+  -Widget _buildDetailRow()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "blood_bank_app::screens::donor::donor_list_screen.dart::_DonorListScreenState"
+
+class "blood_bank_app::screens::hospital::hospital_approval_screen.dart::HospitalApprovalScreen" {
+  +State<HospitalApprovalScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "blood_bank_app::screens::hospital::hospital_approval_screen.dart::HospitalApprovalScreen"
+
+class "blood_bank_app::screens::hospital::hospital_approval_screen.dart::_HospitalApprovalScreenState" {
+  -List<Map<String, dynamic>> _pendingHospitals
+  -bool _isLoading
+  -DatabaseHelper _dbHelper
+  +void initState()
+  -dynamic _loadPendingHospitals()
+  -dynamic _approveHospital()
+  -dynamic _addNewHospital()
+  +Widget build()
+}
+
+"blood_bank_app::screens::hospital::hospital_approval_screen.dart::_HospitalApprovalScreenState" o-- "blood_bank_app::services::database_helper.dart::DatabaseHelper"
+"flutter::src::widgets::framework.dart::State" <|-- "blood_bank_app::screens::hospital::hospital_approval_screen.dart::_HospitalApprovalScreenState"
+
+class "blood_bank_app::screens::hospital::hospital_dashboard_screen.dart::HospitalDashboardScreen" {
+  +String hospitalName
+  +_HospitalDashboardScreenState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "blood_bank_app::screens::hospital::hospital_dashboard_screen.dart::HospitalDashboardScreen"
+
+class "blood_bank_app::screens::hospital::hospital_dashboard_screen.dart::_HospitalDashboardScreenState" {
+  -bool _emergencyStatus
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "blood_bank_app::screens::hospital::hospital_dashboard_screen.dart::_HospitalDashboardScreenState"
+
+class "blood_bank_app::screens::hospital::hospital_login_screen.dart::HospitalLoginScreen" {
+  +_HospitalLoginScreenState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "blood_bank_app::screens::hospital::hospital_login_screen.dart::HospitalLoginScreen"
+
+class "blood_bank_app::screens::hospital::hospital_login_screen.dart::_HospitalLoginScreenState" {
+  -GlobalKey<FormState> _formKey
+  -TextEditingController _nameController
+  -TextEditingController _passwordController
+  +void dispose()
+  -dynamic _login()
+  +Widget build()
+}
+
+"blood_bank_app::screens::hospital::hospital_login_screen.dart::_HospitalLoginScreenState" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"blood_bank_app::screens::hospital::hospital_login_screen.dart::_HospitalLoginScreenState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "blood_bank_app::screens::hospital::hospital_login_screen.dart::_HospitalLoginScreenState"
+
+class "blood_bank_app::screens::hospital::hospital_order_screens.dart::HospitalOrdersScreen" {
+  +State<HospitalOrdersScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "blood_bank_app::screens::hospital::hospital_order_screens.dart::HospitalOrdersScreen"
+
+class "blood_bank_app::screens::hospital::hospital_order_screens.dart::_HospitalOrdersScreenState" {
+  -dynamic _ordersFuture
+  +void initState()
+  -dynamic _loadOrders()
+  -dynamic _fetchOrders()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "blood_bank_app::screens::hospital::hospital_order_screens.dart::_HospitalOrdersScreenState"
+
+class "blood_bank_app::screens::hospital::hospital_register_screen.dart::HospitalRegistrationScreen" {
+  +State<HospitalRegistrationScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "blood_bank_app::screens::hospital::hospital_register_screen.dart::HospitalRegistrationScreen"
+
+class "blood_bank_app::screens::hospital::hospital_register_screen.dart::_HospitalRegistrationScreenState" {
+  -GlobalKey<FormState> _formKey
+  -TextEditingController _nameController
+  -TextEditingController _passwordController
+  -TextEditingController _confirmPasswordController
+  +void dispose()
+  -dynamic _register()
+  +Widget build()
+}
+
+"blood_bank_app::screens::hospital::hospital_register_screen.dart::_HospitalRegistrationScreenState" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"blood_bank_app::screens::hospital::hospital_register_screen.dart::_HospitalRegistrationScreenState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "blood_bank_app::screens::hospital::hospital_register_screen.dart::_HospitalRegistrationScreenState"
+
+class "blood_bank_app::screens::main_screen.dart::MainScreen" {
+  +Widget build()
+  -Widget _buildMenuButton()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "blood_bank_app::screens::main_screen.dart::MainScreen"
+
+class "blood_bank_app::screens::reciever::order_blood_screen.dart::OrderBloodScreen" {
+  +String hospitalName
+  +_OrderBloodScreenState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "blood_bank_app::screens::reciever::order_blood_screen.dart::OrderBloodScreen"
+
+class "blood_bank_app::screens::reciever::order_blood_screen.dart::_OrderBloodScreenState" {
+  -GlobalKey<FormState> _formKey
+  -TransportService _transportService
+  -DatabaseHelper _databaseHelper
+  -String _bloodGroup
+  -int _packets
+  -bool _emergency
+  -bool _isSubmitting
+  +Widget build()
+  -dynamic _submitOrder()
+  -void _showError()
+}
+
+"blood_bank_app::screens::reciever::order_blood_screen.dart::_OrderBloodScreenState" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"blood_bank_app::screens::reciever::order_blood_screen.dart::_OrderBloodScreenState" o-- "blood_bank_app::services::transport_service.dart::TransportService"
+"blood_bank_app::screens::reciever::order_blood_screen.dart::_OrderBloodScreenState" o-- "blood_bank_app::services::database_helper.dart::DatabaseHelper"
+"flutter::src::widgets::framework.dart::State" <|-- "blood_bank_app::screens::reciever::order_blood_screen.dart::_OrderBloodScreenState"
+
+class "blood_bank_app::screens::reciever::receiver_list_screen.dart::ReceiverListScreen" {
+  +State<ReceiverListScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "blood_bank_app::screens::reciever::receiver_list_screen.dart::ReceiverListScreen"
+
+class "blood_bank_app::screens::reciever::receiver_list_screen.dart::_ReceiverListScreenState" {
+  -dynamic _receiversFuture
+  -bool _isLoading
+  +void initState()
+  -dynamic _loadReceivers()
+  +Widget build()
+  -Widget _buildReceiverList()
+  -void _showReceiverDetails()
+  -Widget _buildDetailRow()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "blood_bank_app::screens::reciever::receiver_list_screen.dart::_ReceiverListScreenState"
+
+class "blood_bank_app::screens::reciever::receive_blood_screen.dart::ReceiveBloodScreen" {
+  +String username
+  +_ReceiveBloodScreenState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "blood_bank_app::screens::reciever::receive_blood_screen.dart::ReceiveBloodScreen"
+
+class "blood_bank_app::screens::reciever::receive_blood_screen.dart::_ReceiveBloodScreenState" {
+  -GlobalKey<FormState> _formKey
+  -Receiver _receiver
+  -TransportService _transport
+  -DatabaseHelper _dbHelper
+  -int _packets
+  -bool _isSubmitting
+  +Widget build()
+  -Widget _buildNameField()
+  -Widget _buildAgeField()
+  -Widget _buildGenderDropdown()
+  -Widget _buildWeightField()
+  -Widget _buildBloodGroupDropdown()
+  -Widget _buildHemoglobinField()
+  -Widget _buildPulseField()
+  -Widget _buildSystolicBPField()
+  -Widget _buildDiastolicBPField()
+  -Widget _buildPacketsDropdown()
+  -Widget _buildSubmitButton()
+  -dynamic _submit()
+  -dynamic _saveReceiverToDatabase()
+  -void _showSuccess()
+  -void _showInsufficientBloodDialog()
+  -void _showCompatibilityInfo()
+  -void _showError()
+}
+
+"blood_bank_app::screens::reciever::receive_blood_screen.dart::_ReceiveBloodScreenState" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"blood_bank_app::screens::reciever::receive_blood_screen.dart::_ReceiveBloodScreenState" o-- "blood_bank_app::models::receiver.dart::Receiver"
+"blood_bank_app::screens::reciever::receive_blood_screen.dart::_ReceiveBloodScreenState" o-- "blood_bank_app::services::transport_service.dart::TransportService"
+"blood_bank_app::screens::reciever::receive_blood_screen.dart::_ReceiveBloodScreenState" o-- "blood_bank_app::services::database_helper.dart::DatabaseHelper"
+"flutter::src::widgets::framework.dart::State" <|-- "blood_bank_app::screens::reciever::receive_blood_screen.dart::_ReceiveBloodScreenState"
+
+class "blood_bank_app::screens::splash_screen.dart::SplashScreen" {
+  +_SplashScreenState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "blood_bank_app::screens::splash_screen.dart::SplashScreen"
+
+class "blood_bank_app::screens::splash_screen.dart::_SplashScreenState" {
+  +void initState()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "blood_bank_app::screens::splash_screen.dart::_SplashScreenState"
+
+class "blood_bank_app::services::database_helper.dart::DatabaseHelper" {
+  {static} -String _databaseName
+  {static} -int _databaseVersion
+  {static} +DatabaseHelper instance
+  {static} -Database? _database
+  +dynamic database
+  -dynamic _initDatabase()
+  -dynamic _onCreate()
+  -dynamic _onUpgrade()
+  -dynamic _createTables()
+  -dynamic _initializeBloodInventory()
+  -dynamic _addSampleData()
+  {static} -String _hashPassword()
+  +dynamic getAvailableVehicles()
+  +dynamic updateTransportLog()
+  +dynamic getTransportLogs()
+}
+
+"blood_bank_app::services::database_helper.dart::DatabaseHelper" o-- "blood_bank_app::services::database_helper.dart::DatabaseHelper"
+"blood_bank_app::services::database_helper.dart::DatabaseHelper" o-- "sqflite_common::sqlite_api.dart::Database"
+
+class "blood_bank_app::services::transport_service.dart::BloodPacket" {
+  +String group
+  +int taken
+  +int remaining
+  +Map<String, dynamic> toMap()
+}
+
+class "blood_bank_app::services::transport_service.dart::TransportLog" {
+  +String id
+  +DateTime timestamp
+  +String receiverGroup
+  +String destination
+  +String vehicleId
+  +String branchId
+  +TransportStatus status
+  +bool emergency
+  +Map<String, dynamic> toMap()
+}
+
+"blood_bank_app::services::transport_service.dart::TransportLog" o-- "blood_bank_app::services::transport_service.dart::TransportStatus"
+
+class "blood_bank_app::services::transport_service.dart::TransportService" {
+  -DatabaseHelper _dbHelper
+  -Blood _blood
+  +bool isCompatible()
+  +dynamic findCompatibleDonors()
+  +dynamic checkRequestFeasibility()
+  +dynamic fulfillRequest()
+  -dynamic _findAvailableVehicle()
+  +dynamic getTransportHistory()
+  +dynamic getNearestBranch()
+}
+
+"blood_bank_app::services::transport_service.dart::TransportService" o-- "blood_bank_app::services::database_helper.dart::DatabaseHelper"
+"blood_bank_app::services::transport_service.dart::TransportService" o-- "blood_bank_app::models::blood.dart::Blood"
+
+class "blood_bank_app::services::transport_service.dart::VehicleStatus" {
+  +int index
+  {static} +List<VehicleStatus> values
+  {static} +VehicleStatus available
+  {static} +VehicleStatus assigned
+  {static} +VehicleStatus maintenance
+  {static} +VehicleStatus inTransit
+}
+
+"blood_bank_app::services::transport_service.dart::VehicleStatus" o-- "blood_bank_app::services::transport_service.dart::VehicleStatus"
+"dart::core::Enum" <|-- "blood_bank_app::services::transport_service.dart::VehicleStatus"
+
+class "blood_bank_app::services::transport_service.dart::TransportStatus" {
+  +int index
+  {static} +List<TransportStatus> values
+  {static} +TransportStatus dispatched
+  {static} +TransportStatus inProgress
+  {static} +TransportStatus delivered
+  {static} +TransportStatus cancelled
+}
+
+"blood_bank_app::services::transport_service.dart::TransportStatus" o-- "blood_bank_app::services::transport_service.dart::TransportStatus"
+"dart::core::Enum" <|-- "blood_bank_app::services::transport_service.dart::TransportStatus"
+
+class "blood_bank_app::services::view_db.dart::DatabaseViewScreen" {
+  +_DatabaseViewScreenState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "blood_bank_app::services::view_db.dart::DatabaseViewScreen"
+
+class "blood_bank_app::services::view_db.dart::_DatabaseViewScreenState" {
+  -List<Map<String, dynamic>> _hospitals
+  +void initState()
+  -dynamic _loadDatabase()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "blood_bank_app::services::view_db.dart::_DatabaseViewScreenState"
+
+
+@enduml

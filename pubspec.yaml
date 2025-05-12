@@ -1,0 +1,35 @@
+name: blood_bank_app
+description: A Blood Bank Management System using file storage
+publish_to: 'none'  # Prevents accidental publishing to pub.dev
+
+version: 1.0.0+1  # Version format: <major>.<minor>.<patch>+<build>
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"  # Dart 3 compatibility
+
+dependencies:
+  flutter:
+    sdk: flutter
+  path_provider: ^2.1.1  # For file system access
+  intl: ^0.20.2  # For internationalization/formatting
+  geolocator: ^14.0.0  # For location services
+  crypto: ^3.0.3
+  flutter_secure_storage: ^9.2.4  # For secure credential storage
+  sqflite: ^2.3.0
+  path: ^1.8.0
+  shared_preferences: ^2.2.2
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0  # For code quality analysis
+
+flutter:
+  uses-material-design: true  # Enables Material icons
+
+  assets:
+    - data/Blood.txt
+    - data/Citizen.txt
+    - data/Hospital.txt
+    - data/Receiver.txt
+    - data/Donor.txt
+    - data/HospitalOrders.txt
